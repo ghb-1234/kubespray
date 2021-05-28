@@ -5,7 +5,7 @@
 If you have questions, check the documentation at [kubespray.io](https://kubespray.io) and join us on the [kubernetes slack](https://kubernetes.slack.com), channel **\#kubespray**.
 You can get your invite [here](http://slack.k8s.io/)
 
-- Can be deployed on **[AWS](docs/aws.md), GCE, [Azure](docs/azure.md), [OpenStack](docs/openstack.md), [vSphere](docs/vsphere.md), [Packet](docs/packet.md) (bare metal), Oracle Cloud Infrastructure (Experimental), or Baremetal**
+- Can be deployed on **[AWS](docs/aws.md), GCE, [Azure](docs/azure.md), [OpenStack](docs/openstack.md), [vSphere](docs/vsphere.md), [Equinix Metal](docs/equinix-metal.md) (bare metal), Oracle Cloud Infrastructure (Experimental), or Baremetal**
 - **Highly available** cluster
 - **Composable** (Choice of the network plugin for instance)
 - Supports most popular **Linux distributions**
@@ -105,7 +105,7 @@ vagrant up
 - [AWS](docs/aws.md)
 - [Azure](docs/azure.md)
 - [vSphere](docs/vsphere.md)
-- [Packet Host](docs/packet.md)
+- [Equinix Metal](docs/equinix-metal.md)
 - [Large deployments](docs/large-deployments.md)
 - [Adding/replacing a node](docs/nodes.md)
 - [Upgrades basics](docs/upgrades.md)
@@ -117,12 +117,12 @@ vagrant up
 - **Flatcar Container Linux by Kinvolk**
 - **Debian** Buster, Jessie, Stretch, Wheezy
 - **Ubuntu** 16.04, 18.04, 20.04
-- **CentOS/RHEL** 7, 8 (experimental: see [centos 8 notes](docs/centos8.md))
-- **Fedora** 32, 33
+- **CentOS/RHEL** 7, [8](docs/centos8.md)
+- **Fedora** 33, 34
 - **Fedora CoreOS** (experimental: see [fcos Note](docs/fcos.md))
 - **openSUSE** Leap 15.x/Tumbleweed
-- **Oracle Linux** 7, 8 (experimental: [centos 8 notes](docs/centos8.md) apply)
-- **Alma Linux** 8 (experimental: [centos 8 notes](docs/centos8.md) apply)
+- **Oracle Linux** 7, [8](docs/centos8.md)
+- **Alma Linux** [8](docs/centos8.md)
 - **Amazon Linux 2** (experimental: see [amazon linux notes](docs/amazonlinux.md)
 
 Note: Upstart/SysV init based OS types are not supported.
@@ -130,11 +130,11 @@ Note: Upstart/SysV init based OS types are not supported.
 ## Supported Components
 
 - Core
-  - [kubernetes](https://github.com/kubernetes/kubernetes) v1.20.6
+  - [kubernetes](https://github.com/kubernetes/kubernetes) v1.21.1
   - [etcd](https://github.com/coreos/etcd) v3.4.13
-  - [docker](https://www.docker.com/) v19.03 (see note)
+  - [docker](https://www.docker.com/) v20.10 (see note)
   - [containerd](https://containerd.io/) v1.4.4
-  - [cri-o](http://cri-o.io/) v1.20 (experimental: see [CRI-O Note](docs/cri-o.md). Only on fedora, ubuntu and centos based OS)
+  - [cri-o](http://cri-o.io/) v1.21 (experimental: see [CRI-O Note](docs/cri-o.md). Only on fedora, ubuntu and centos based OS)
 - Network Plugin
   - [cni-plugins](https://github.com/containernetworking/plugins) v0.9.1
   - [calico](https://github.com/projectcalico/calico) v3.17.4
@@ -151,18 +151,18 @@ Note: Upstart/SysV init based OS types are not supported.
   - [cephfs-provisioner](https://github.com/kubernetes-incubator/external-storage) v2.1.0-k8s1.11
   - [rbd-provisioner](https://github.com/kubernetes-incubator/external-storage) v2.1.1-k8s1.11
   - [cert-manager](https://github.com/jetstack/cert-manager) v0.16.1
-  - [coredns](https://github.com/coredns/coredns) v1.7.0
+  - [coredns](https://github.com/coredns/coredns) v1.8.0
   - [ingress-nginx](https://github.com/kubernetes/ingress-nginx) v0.43.0
 
 ## Container Runtime Notes
 
-- The list of available docker version is 18.09, 19.03 and 20.10. The recommended docker version is 19.03. The kubelet might break on docker's non-standard version numbering (it no longer uses semantic versioning). To ensure auto-updates don't break your cluster look into e.g. yum versionlock plugin or apt pin).
+- The list of available docker version is 18.09, 19.03 and 20.10. The recommended docker version is 20.10. The kubelet might break on docker's non-standard version numbering (it no longer uses semantic versioning). To ensure auto-updates don't break your cluster look into e.g. yum versionlock plugin or apt pin).
 - The cri-o version should be aligned with the respective kubernetes version (i.e. kube_version=1.20.x, crio_version=1.20)
 
 ## Requirements
 
 - **Minimum required version of Kubernetes is v1.19**
-- **Ansible v2.9.x, Jinja 2.11+ and python-netaddr is installed on the machine that will run Ansible commands, Ansible 2.10.x is not supported for now**
+- **Ansible v2.9.x, Jinja 2.11+ and python-netaddr is installed on the machine that will run Ansible commands, Ansible 2.10.x is experimentally supported for now**
 - The target servers must have **access to the Internet** in order to pull docker images. Otherwise, additional configuration is required (See [Offline Environment](docs/offline-environment.md))
 - The target servers are configured to allow **IPv4 forwarding**.
 - If using IPv6 for pods and services, the target servers are configured to allow **IPv6 forwarding**.
@@ -239,6 +239,6 @@ See also [Network checker](docs/netcheck.md).
 
 [![Build graphs](https://gitlab.com/kargo-ci/kubernetes-sigs-kubespray/badges/master/pipeline.svg)](https://gitlab.com/kargo-ci/kubernetes-sigs-kubespray/pipelines)
 
-CI/end-to-end tests sponsored by: [CNCF](https://cncf.io), [Packet](https://www.packet.com/), [OVHcloud](https://www.ovhcloud.com/), [ELASTX](https://elastx.se/).
+CI/end-to-end tests sponsored by: [CNCF](https://cncf.io), [Equinix Metal](https://metal.equinix.com/), [OVHcloud](https://www.ovhcloud.com/), [ELASTX](https://elastx.se/).
 
 See the [test matrix](docs/test_cases.md) for details.
